@@ -6,7 +6,9 @@ import androidx.navigation.NavHost
 import androidx.navigation.fragment.NavHostFragment
 import com.jmzd.ghazal.foodappmvp.R
 import com.jmzd.ghazal.foodappmvp.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     //binding
