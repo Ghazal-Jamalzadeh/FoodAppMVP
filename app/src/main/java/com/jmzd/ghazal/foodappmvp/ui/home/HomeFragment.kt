@@ -7,18 +7,25 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import coil.load
 import com.jakewharton.rxbinding4.widget.textChanges
 import com.jmzd.ghazal.foodappmvp.R
+import com.jmzd.ghazal.foodappmvp.data.model.home.ResponseFoodsList
 import com.jmzd.ghazal.foodappmvp.databinding.FragmentHomeBinding
+import com.jmzd.ghazal.foodappmvp.utils.isNetworkAvailable
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
 @AndroidEntryPoint
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment() , HomeContracts.View{
 
     //binding
     private lateinit var binding: FragmentHomeBinding
+
+    @Inject
+    lateinit var presenter: HomePresenter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,6 +39,8 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         //InitViews
         binding.apply {
+            //call api
+            presenter.callFoodRandom()
 
             //Search
             searchEdt.textChanges()
@@ -98,6 +107,26 @@ class HomeFragment : Fragment() {
 
             }
         }
+    }
+
+    override fun loadFoodRandom(data: ResponseFoodsList) {
+        binding.headerImg.load(data.meals?.get(0)?.strMealThumb)
+    }
+
+    override fun showLoading() {
+    }
+
+    override fun hideLoading() {
+    }
+
+    override fun checkInternet(): Boolean {
+        return requireContext().isNetworkAvailable()
+    }
+
+    override fun internetError(hasInternet: Boolean) {
+    }
+
+    override fun serverError(message: String) {
     }
 
 }
