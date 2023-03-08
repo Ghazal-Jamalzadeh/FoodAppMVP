@@ -65,8 +65,7 @@ class HomeFragment : Fragment() , HomeContracts.View{
                 .subscribe {
                     if (it.toString().length > 1) {
                         //Call api
-//                        presenter.callSearchFood(it.toString())
-
+                        presenter.callSearchFood(it.toString())
                     }
                 }
 

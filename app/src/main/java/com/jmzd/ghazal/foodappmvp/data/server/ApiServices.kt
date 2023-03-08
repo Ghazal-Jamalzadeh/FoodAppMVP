@@ -19,4 +19,10 @@ interface ApiServices {
     //search.php?f=a
     @GET("search.php")
     fun foodsList(@Query("f") letter : String ) : Single<Response<ResponseFoodsList>>
+
+    //search.php?s=Arrabiata
+    @GET("search.php")
+    fun seearchFood(@Query("s") search : String ) : Single<Response<ResponseFoodsList>>
+
+
 }
