@@ -9,8 +9,9 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/headerLay"
         android:layout_width="match_parent"
-        android:layout_height="350dp"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/homeContent">
         <!--Img-->
         <com.flaviofaria.kenburnsview.KenBurnsView
             android:id="@+id/headerImg"
@@ -30,6 +31,7 @@
         android:id="@+id/searchFilterLay"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:elevation="10dp"
         app:layout_constraintBottom_toBottomOf="@id/headerLay"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -77,10 +79,12 @@
     <ScrollView
         android:id="@+id/homeContent"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
+        android:paddingTop="32dp"
         android:fillViewport="true"
+        android:minHeight="350dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/searchFilterLay">
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -154,11 +158,18 @@
                         android:layout_marginTop="10dp"
                         android:clipToPadding="false"
                         android:paddingHorizontal="25dp"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        android:orientation="horizontal"
                         tools:listitem="@layout/item_foods"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/foodsTitle" />
 
+                    <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="32dp"
+                        app:layout_constraintTop_toBottomOf="@id/foodsList"
+                        />
                 </androidx.constraintlayout.widget.ConstraintLayout>
                 <!--Loading-->
                 <ProgressBar

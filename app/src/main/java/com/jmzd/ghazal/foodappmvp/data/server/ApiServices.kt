@@ -5,6 +5,7 @@ import com.jmzd.ghazal.foodappmvp.data.model.home.ResponseFoodsList
 import io.reactivex.rxjava3.core.Single
 import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.Query
 
 
 interface ApiServices {
@@ -14,4 +15,8 @@ interface ApiServices {
 
     @GET("categories.php")
     fun categoriesList() : Single<Response<ResponseCategoriesList>>
+
+    //search.php?f=a
+    @GET("search.php")
+    fun foodsList(@Query("f") letter : String ) : Single<Response<ResponseFoodsList>>
 }

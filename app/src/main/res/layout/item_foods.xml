@@ -13,9 +13,9 @@
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:scaleType="centerCrop"
+        app:shapeAppearanceOverlay="@style/TopRoundedImageView"
         app:layout_constraintTop_toTopOf="parent"
         />
-   <!-- app:shapeAppearanceOverlay="@style/TopRoundedImageView"-->
     <!--Title-->
     <TextView
         android:id="@+id/itemFoodsTitle"

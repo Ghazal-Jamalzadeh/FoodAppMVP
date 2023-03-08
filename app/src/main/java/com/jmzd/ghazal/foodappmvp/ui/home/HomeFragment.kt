@@ -16,6 +16,7 @@ import com.jmzd.ghazal.foodappmvp.data.model.home.ResponseCategoriesList
 import com.jmzd.ghazal.foodappmvp.data.model.home.ResponseFoodsList
 import com.jmzd.ghazal.foodappmvp.databinding.FragmentHomeBinding
 import com.jmzd.ghazal.foodappmvp.ui.home.adapters.CategoriesAdapter
+import com.jmzd.ghazal.foodappmvp.ui.home.adapters.FoodsAdapter
 import com.jmzd.ghazal.foodappmvp.utils.isNetworkAvailable
 import com.jmzd.ghazal.foodappmvp.utils.showSnackBar
 import dagger.hilt.android.AndroidEntryPoint
@@ -35,6 +36,9 @@ class HomeFragment : Fragment() , HomeContracts.View{
     @Inject
     lateinit var categoriesAdapter: CategoriesAdapter
 
+    @Inject
+    lateinit var foodsAdapter: FoodsAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -47,9 +51,12 @@ class HomeFragment : Fragment() , HomeContracts.View{
         super.onViewCreated(view, savedInstanceState)
         //InitViews
         binding.apply {
+
             //call api
             presenter.callFoodRandom()
             presenter.callCategoriesList()
+            val rand = ('A'..'Z').random()
+            presenter.callFoodsList(rand.toString())
 
             //Search
             searchEdt.textChanges()
@@ -128,6 +135,28 @@ class HomeFragment : Fragment() , HomeContracts.View{
             layoutManager = LinearLayoutManager(requireContext() , LinearLayoutManager.HORIZONTAL , false)
             adapter = categoriesAdapter
         }
+    }
+
+    override fun loadFoodsList(data: ResponseFoodsList) {
+        data.meals?.let {
+        foodsAdapter.setData(it)
+        }
+        binding.foodsList.apply {
+            layoutManager = LinearLayoutManager(requireContext() , LinearLayoutManager.HORIZONTAL , false)
+            adapter = foodsAdapter
+        }
+    }
+
+    override fun foodsLoadingState(isShown: Boolean) {
+       binding.apply {
+           if(isShown){
+               foodsList.visibility = View.GONE
+               homeFoodsLoading.visibility = View.VISIBLE
+           }else{
+               foodsList.visibility = View.VISIBLE
+               homeFoodsLoading.visibility = View.GONE
+           }
+       }
     }
 
     override fun showLoading() {
