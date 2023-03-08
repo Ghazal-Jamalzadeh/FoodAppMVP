@@ -133,6 +133,11 @@ class HomeFragment : Fragment() , HomeContracts.View{
             layoutManager = LinearLayoutManager(requireContext() , LinearLayoutManager.HORIZONTAL , false)
             adapter = categoriesAdapter
         }
+
+        categoriesAdapter.setOnItemClickListener {
+            //it : ResponseCategoriesList.Category
+            presenter.callFoodsByCategory(it.strCategory.toString())
+        }
     }
 
     override fun loadFoodsList(data: ResponseFoodsList) {

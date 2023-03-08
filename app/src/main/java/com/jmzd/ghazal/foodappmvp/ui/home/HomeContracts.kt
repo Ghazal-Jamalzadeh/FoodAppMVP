@@ -19,6 +19,7 @@ interface HomeContracts {
         fun callCategoriesList()
         fun callFoodsList(letter : String)
         fun callSearchFood(search : String)
+        fun callFoodsByCategory(category : String)
     }
 
 

@@ -8,4 +8,5 @@ class HomeRepository @Inject constructor(private val api: ApiServices) {
     fun loadCategoriesList() = api.categoriesList()
     fun loadFoodsList(letter : String) = api.foodsList(letter = letter)
     fun searchFood(search : String) = api.seearchFood(search = search )
+    fun foodsByCategory(category : String) = api.foodsByCategory(category = category )
 }

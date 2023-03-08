@@ -24,5 +24,10 @@ interface ApiServices {
     @GET("search.php")
     fun seearchFood(@Query("s") search : String ) : Single<Response<ResponseFoodsList>>
 
+    //filter.php?c=Seafood
+    @GET("filter.php")
+    fun foodsByCategory(@Query("c") category : String ) : Single<Response<ResponseFoodsList>>
+
+
 
 }
