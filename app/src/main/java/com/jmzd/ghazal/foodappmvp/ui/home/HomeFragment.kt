@@ -7,12 +7,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
+import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxbinding4.widget.textChanges
 import com.jmzd.ghazal.foodappmvp.R
+import com.jmzd.ghazal.foodappmvp.data.model.home.ResponseCategoriesList
 import com.jmzd.ghazal.foodappmvp.data.model.home.ResponseFoodsList
 import com.jmzd.ghazal.foodappmvp.databinding.FragmentHomeBinding
+import com.jmzd.ghazal.foodappmvp.ui.home.adapters.CategoriesAdapter
 import com.jmzd.ghazal.foodappmvp.utils.isNetworkAvailable
+import com.jmzd.ghazal.foodappmvp.utils.showSnackBar
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import java.util.concurrent.TimeUnit
@@ -26,6 +31,9 @@ class HomeFragment : Fragment() , HomeContracts.View{
 
     @Inject
     lateinit var presenter: HomePresenter
+
+    @Inject
+    lateinit var categoriesAdapter: CategoriesAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,6 +49,7 @@ class HomeFragment : Fragment() , HomeContracts.View{
         binding.apply {
             //call api
             presenter.callFoodRandom()
+            presenter.callCategoriesList()
 
             //Search
             searchEdt.textChanges()
@@ -113,10 +122,26 @@ class HomeFragment : Fragment() , HomeContracts.View{
         binding.headerImg.load(data.meals?.get(0)?.strMealThumb)
     }
 
+    override fun loadCategoriesList(data: ResponseCategoriesList) {
+        categoriesAdapter.setData(data.categories)
+        binding.categoryList.apply {
+            layoutManager = LinearLayoutManager(requireContext() , LinearLayoutManager.HORIZONTAL , false)
+            adapter = categoriesAdapter
+        }
+    }
+
     override fun showLoading() {
+       binding.apply {
+           homeCategoryLoading.visibility = View.VISIBLE
+           categoryList.visibility = View.GONE
+       }
     }
 
     override fun hideLoading() {
+        binding.apply {
+            homeCategoryLoading.visibility = View.GONE
+            categoryList.visibility = View.VISIBLE
+        }
     }
 
     override fun checkInternet(): Boolean {
@@ -127,6 +152,8 @@ class HomeFragment : Fragment() , HomeContracts.View{
     }
 
     override fun serverError(message: String) {
+     //   Snackbar.make(binding.root , message , Snackbar.LENGTH_SHORT).show()
+        binding.root.showSnackBar(message)
     }
 
 }

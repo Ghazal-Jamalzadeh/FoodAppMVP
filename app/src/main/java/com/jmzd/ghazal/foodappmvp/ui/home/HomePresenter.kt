@@ -21,8 +21,6 @@ class HomePresenter @Inject constructor(
                 .subscribe(
                     { response ->
                         //it : Response<ResponseFoodList>
-
-                        view.hideLoading()
                         when (response.code()) {
                             in 200..202 -> {
                                 response.body()?.let {
@@ -44,6 +42,43 @@ class HomePresenter @Inject constructor(
                     },
                     {
                         // it : Throwable
+                        view.serverError(it.message.toString())
+                    })
+
+        } else {
+            view.internetError(false)
+        }
+
+    }
+
+    override fun callCategoriesList() {
+
+        if (view.checkInternet()) {
+
+            view.showLoading()
+
+            disposable = repository.loadCategoriesList()
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+                .applyIoScheduler()
+                .subscribe(
+                    { response ->
+                        //it : Response<ResponseCategoriesList>
+                        view.hideLoading()
+                        when (response.code()) {
+                            in 200..202 -> {
+                                response.body()?.let {
+                                    //it: ResponseCategoriesList
+                                    if(it.categories.isNotEmpty()){
+                                    view.loadCategoriesList(it)
+                                    }
+                                }
+                            }
+                        }
+
+                    },
+                    {
+                        // it : Throwable
                         view.hideLoading()
                         view.serverError(it.message.toString())
                     })
@@ -51,6 +86,7 @@ class HomePresenter @Inject constructor(
         } else {
             view.internetError(false)
         }
+
 
     }
 
