@@ -9,7 +9,6 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
-import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxbinding4.widget.textChanges
 import com.jmzd.ghazal.foodappmvp.R
 import com.jmzd.ghazal.foodappmvp.data.model.home.ResponseCategoriesList
@@ -114,9 +113,9 @@ class HomeFragment : Fragment() , HomeContracts.View{
         adapter.setDropDownViewResource(R.layout.item_spinner_list)
         binding.filterSpinner.adapter = adapter
         binding.filterSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
                 //Call api
-//                presenter.callFoodsList(filters[p2].toString())
+                presenter.callFoodsList(filters[position].toString())
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -150,11 +149,11 @@ class HomeFragment : Fragment() , HomeContracts.View{
     override fun foodsLoadingState(isShown: Boolean) {
        binding.apply {
            if(isShown){
-               foodsList.visibility = View.GONE
+               foodsList.visibility = View.INVISIBLE
                homeFoodsLoading.visibility = View.VISIBLE
            }else{
                foodsList.visibility = View.VISIBLE
-               homeFoodsLoading.visibility = View.GONE
+               homeFoodsLoading.visibility = View.INVISIBLE
            }
        }
     }
@@ -162,13 +161,13 @@ class HomeFragment : Fragment() , HomeContracts.View{
     override fun showLoading() {
        binding.apply {
            homeCategoryLoading.visibility = View.VISIBLE
-           categoryList.visibility = View.GONE
+           categoryList.visibility = View.INVISIBLE
        }
     }
 
     override fun hideLoading() {
         binding.apply {
-            homeCategoryLoading.visibility = View.GONE
+            homeCategoryLoading.visibility = View.INVISIBLE
             categoryList.visibility = View.VISIBLE
         }
     }

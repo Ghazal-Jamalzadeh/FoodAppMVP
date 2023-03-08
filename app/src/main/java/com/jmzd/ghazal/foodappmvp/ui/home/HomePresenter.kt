@@ -104,8 +104,11 @@ class HomePresenter @Inject constructor(
                             in 200..202 -> {
                                 response.body()?.let {
                                     //it: ResponseCategoriesList
-                                    if(it.meals!!.isNotEmpty()){
+                                    it.meals?.let { meals ->
+                                    if(meals.isNotEmpty()){
                                         view.loadFoodsList(it)
+                                    }
+
                                     }
                                 }
                             }
