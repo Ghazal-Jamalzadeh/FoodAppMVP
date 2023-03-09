@@ -1,5 +1,6 @@
 package com.jmzd.ghazal.foodappmvp.ui.home
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -19,7 +20,10 @@ import com.jmzd.ghazal.foodappmvp.ui.home.adapters.FoodsAdapter
 import com.jmzd.ghazal.foodappmvp.utils.isNetworkAvailable
 import com.jmzd.ghazal.foodappmvp.utils.showSnackBar
 import dagger.hilt.android.AndroidEntryPoint
+import greyfox.rxnetwork.RxNetwork
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -46,6 +50,7 @@ class HomeFragment : Fragment() , HomeContracts.View{
         return  binding.root
     }
 
+    @SuppressLint("CheckResult")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         //InitViews
@@ -71,6 +76,16 @@ class HomeFragment : Fragment() , HomeContracts.View{
 
             //Filter
             filterFood()
+
+            //Check internet
+            RxNetwork.init(requireContext()).observe()
+                .subscribeOn(Schedulers.io()) // همیشه از RX3 بر میداشتیم schedulers را ولی برای این لایبرری باید از Rx معمولی import کنیم
+                .observeOn(io.reactivex.android.schedulers.AndroidSchedulers.mainThread())
+                .subscribe {
+                    // it : RxNetworkInfo
+                    /* اگه بزنیم it خیلی گزینه های متنوع باحالی میده بمون */
+                    internetError(it.isConnected) // صدا زدن متدهای اینترفیس ویو داخل خود فرگمنت
+                }
         }
 
     }
@@ -196,6 +211,23 @@ class HomeFragment : Fragment() , HomeContracts.View{
     }
 
     override fun internetError(hasInternet: Boolean) {
+        binding.apply {
+            if (!hasInternet) {
+                homeContent.visibility = View.INVISIBLE
+                homeDisLay.visibility = View.VISIBLE
+                //Change view
+                disconnectLay.disImg.setImageResource(R.drawable.disconnect)
+                disconnectLay.disTxt.text = getString(R.string.checkInternet)
+            } else {
+                homeContent.visibility = View.VISIBLE
+                homeDisLay.visibility = View.GONE
+                //Call api
+                presenter.callCategoriesList()
+                val rand = ('A'..'Z').random()
+                presenter.callFoodsList(rand.toString())
+            }
+        }
+
     }
 
     override fun serverError(message: String) {
