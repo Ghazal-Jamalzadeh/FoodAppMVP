@@ -141,8 +141,13 @@ class HomeFragment : Fragment() , HomeContracts.View{
     }
 
     override fun loadFoodsList(data: ResponseFoodsList) {
-        data.meals?.let {
-        foodsAdapter.setData(it)
+
+        //visibility mode
+        binding.foodsList.visibility = View.VISIBLE
+        binding.homeDisLay.visibility = View.GONE
+
+        data.meals.let {
+        foodsAdapter.setData(it!!)
         }
         binding.foodsList.apply {
             layoutManager = LinearLayoutManager(requireContext() , LinearLayoutManager.HORIZONTAL , false)
@@ -162,10 +167,20 @@ class HomeFragment : Fragment() , HomeContracts.View{
        }
     }
 
+    override fun emptyList() {
+        binding.apply {
+            foodsList.visibility = View.INVISIBLE
+            homeDisLay.visibility = View.VISIBLE
+        }
+    }
+
     override fun showLoading() {
        binding.apply {
            homeCategoryLoading.visibility = View.VISIBLE
            categoryList.visibility = View.INVISIBLE
+           //change view
+           disconnectLay.disImg.setImageResource(R.drawable.box)
+           disconnectLay.disTxt.text = getString(R.string.emptyList)
        }
     }
 

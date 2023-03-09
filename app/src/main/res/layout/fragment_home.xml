@@ -195,9 +195,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/searchFilterLay">
 
-<!--        <include-->
-<!--            android:id="@+id/disconnectLay"-->
-<!--            layout="@layout/disconnected_lay" />-->
+        <include
+            android:id="@+id/disconnectLay"
+            layout="@layout/disconnected_lay" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

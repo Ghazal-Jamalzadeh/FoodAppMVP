@@ -67,8 +67,8 @@ class HomePresenter @Inject constructor(
                             in 200..202 -> {
                                 response.body()?.let {
                                     //it: ResponseCategoriesList
-                                    if(it.categories.isNotEmpty()){
-                                    view.loadCategoriesList(it)
+                                    if (it.categories.isNotEmpty()) {
+                                        view.loadCategoriesList(it)
                                     }
                                 }
                             }
@@ -105,9 +105,9 @@ class HomePresenter @Inject constructor(
                                 response.body()?.let {
                                     //it: ResponseCategoriesList
                                     it.meals?.let { meals ->
-                                    if(meals.isNotEmpty()){
-                                        view.loadFoodsList(it)
-                                    }
+                                        if (meals.isNotEmpty()) {
+                                            view.loadFoodsList(it)
+                                        }
 
                                     }
                                 }
@@ -140,18 +140,20 @@ class HomePresenter @Inject constructor(
                         view.foodsLoadingState(false)
                         when (response.code()) {
                             in 200..202 -> {
-                                response.body()?.let {
+                                response.body()?.let { body ->
                                     //it: ResponseCategoriesList
-                                    it.meals?.let { meals ->
-                                        if(meals.isNotEmpty()){
-                                            view.loadFoodsList(it)
+                                    if (body != null) {
+                                        if (body.meals.isNullOrEmpty().not()) {
+                                            view.loadFoodsList(body)
+                                        } else {
+                                            view.emptyList()
                                         }
-
+                                    } else {
+                                        view.emptyList()
                                     }
                                 }
                             }
                         }
-
                     },
                     {
                         // it : Throwable
@@ -181,7 +183,7 @@ class HomePresenter @Inject constructor(
                                 response.body()?.let {
                                     //it: ResponseCategoriesList
                                     it.meals?.let { meals ->
-                                        if(meals.isNotEmpty()){
+                                        if (meals.isNotEmpty()) {
                                             view.loadFoodsList(it)
                                         }
 
