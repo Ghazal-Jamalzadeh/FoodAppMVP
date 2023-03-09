@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import com.jakewharton.rxbinding4.widget.textChanges
@@ -168,6 +169,11 @@ class HomeFragment : Fragment() , HomeContracts.View{
             layoutManager = LinearLayoutManager(requireContext() , LinearLayoutManager.HORIZONTAL , false)
             adapter = foodsAdapter
         }
+
+        foodsAdapter.setOnItemClickListener {
+            val direction = HomeFragmentDirections.actionHomeFragmentToDetailFragment(it.idMeal!!.toInt())
+            findNavController().navigate(direction)
+        }
     }
 
     override fun foodsLoadingState(isShown: Boolean) {
@@ -222,9 +228,9 @@ class HomeFragment : Fragment() , HomeContracts.View{
                 homeContent.visibility = View.VISIBLE
                 homeDisLay.visibility = View.GONE
                 //Call api
-                presenter.callCategoriesList()
-                val rand = ('A'..'Z').random()
-                presenter.callFoodsList(rand.toString())
+//                presenter.callCategoriesList()
+//                val rand = ('A'..'Z').random()
+//                presenter.callFoodsList(rand.toString())
             }
         }
 

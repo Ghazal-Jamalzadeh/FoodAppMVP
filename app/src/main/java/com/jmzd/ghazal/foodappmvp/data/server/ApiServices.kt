@@ -22,11 +22,15 @@ interface ApiServices {
 
     //search.php?s=Arrabiata
     @GET("search.php")
-    fun seearchFood(@Query("s") search : String ) : Single<Response<ResponseFoodsList>>
+    fun searchFood(@Query("s") search : String ) : Single<Response<ResponseFoodsList>>
 
     //filter.php?c=Seafood
     @GET("filter.php")
     fun foodsByCategory(@Query("c") category : String ) : Single<Response<ResponseFoodsList>>
+
+    //lookup.php?i=52772
+    @GET("lookup.php")
+    fun foodDetail(@Query("i") foodId : Int ) : Single<Response<ResponseFoodsList>>
 
 
 
