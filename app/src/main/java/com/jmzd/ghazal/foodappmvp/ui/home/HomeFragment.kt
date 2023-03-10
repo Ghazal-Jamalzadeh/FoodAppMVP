@@ -241,4 +241,9 @@ class HomeFragment : Fragment() , HomeContracts.View{
         binding.root.showSnackBar(message)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        presenter.onStop()
+    }
+
 }

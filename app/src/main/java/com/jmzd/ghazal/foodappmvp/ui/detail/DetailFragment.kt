@@ -16,6 +16,8 @@ import com.jmzd.ghazal.foodappmvp.R
 import com.jmzd.ghazal.foodappmvp.data.model.home.ResponseFoodsList
 import com.jmzd.ghazal.foodappmvp.databinding.FragmentDetailBinding
 import com.jmzd.ghazal.foodappmvp.databinding.FragmentHomeBinding
+import com.jmzd.ghazal.foodappmvp.ui.detail.player.PlayerActivity
+import com.jmzd.ghazal.foodappmvp.utils.VIDEO_ID
 import com.jmzd.ghazal.foodappmvp.utils.isNetworkAvailable
 import com.jmzd.ghazal.foodappmvp.utils.showSnackBar
 import dagger.hilt.android.AndroidEntryPoint
@@ -75,7 +77,23 @@ class DetailFragment : Fragment(), DetailContracts.View {
                 foodAreaTxt.text = itMeal.strArea
                 foodTitleTxt.text = itMeal.strMeal
                 foodDescTxt.text = itMeal.strInstructions
+                //Play
+                if (itMeal.strYoutube != null) {
+                    foodPlayImg.visibility = View.VISIBLE
+                    foodPlayImg.setOnClickListener {
+                        /*روش اول*/
+//                        startActivity(Intent(Intent.ACTION_VIEW , Uri.parse(itMeal.strSource)))
 
+                        /*روش دوم*/
+                        val videoId = itMeal.strYoutube.split("=")[1]
+                        Intent(requireContext(), PlayerActivity::class.java).also {
+                            it.putExtra(VIDEO_ID, videoId)
+                            startActivity(it)
+                        }
+                    }
+                } else {
+                    foodPlayImg.visibility = View.GONE
+                }
                 //Source
                 if (itMeal.strSource != null) {
                     foodSourceImg.visibility = View.VISIBLE

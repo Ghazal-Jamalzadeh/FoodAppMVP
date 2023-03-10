@@ -139,3 +139,58 @@ json converter------------------------------------------------------------------
 (مدلی که داریم و Gson برامون ساخته منظوره)
 برای تبدیل این مدل به جیسون باید چیکار کنیم؟
 JSONObject(Gson().toJson(model))
+
+youtube player--------------------------------------------------------------------------------------
+برای اینکه بتونیم یوتیوب پلیر را در اپلیکیشن خودمون داشته باشیم نیاز به یک api key داریم.
+برای به دست آوردن این api key باید وارد console.cloud.google.com شوید.
+با vpn میرید و با gmail تون وارد میشید.
+بعد یک new project میسازید
+my project -> new project -> projectName : FoodAppYoutubePlayer -> create -> select project ->
+navigation menu -> api & services -> enable api & services ->
+برای اینکه بتونیم اون حالت api هاش رو برای اپلیکیشن خودمون فعال کنیم
+توی صفحه جدیدی که لود میشه
++ enable api's and services -> اینجا سرویس های خیلی متنوع و جالبی داره
+search box -> youtube data api v3 -> select -> enable
+new page -> left menu -> credentials  -> + create credentials -> api key -> copy
+حالا api key که به دست آوردیم را میبریم توی constants نگه میداریم
+
+اضافه کرپم کتابخونه یوتیوب به پروژه:
+developers.google.com/youtube/android/player/downloads
+مثل دپندنسی های دیگه implementation نداره و به صورت فایل jar هست
+فایل زیپ رو اکسترکت کنید و فایل jar رو استخراج کنید
+copy jar file -> open android studio -> project view -> open your project -> app -> libs -> paste jar file
+محل قرار گیری کتابخونه ها ی jar ست
+android view -> gradle -> implementation files('libs/YouTubeAndroidPlayerApi.jar')
+
+اکتویتی:
+برای استفاده از یوتیوب پلیر نیاز به یک اکتیویتی داریم
+برخلاف سایر اکتیویتی ها از AppCompatAActivity ارث بری نمیکنه و از YouTubeBaseActivity ارث بری میکنه
+به همین علت باید از اکتیویتی استفاده کنیم
+چرا توی پکیج detail قرارش میدیم؟
+چون تنها راه ارتباط با صفحه پلیر فقط و فقط از صفحه detail عه
+
+خط کد زیر را در مانیفست این اکتیویتی اضافه میکنیم که به صورت خودکار بچرخه
+android:screenOrientation="sensorLandscape"
+اگه landscape خالی بزنیم هم میچرخه
+ ولی فرق sensorLandscape اینه که از سنسور خود گوشی استفاده میکنه
+ و کاربر گوشی را به هر طرف بچرخونه به همون طرف میچرخه
+
+نکته خیلی مهم:
+زمانی که از این کتابخونه استفاده میکنیم باید یک کوءری به مانیفست اضافه کنیم
+برای run کردن سرویس یوتیوب هست این کوءری
+
+برای initialize کردن این یوتیوب پلیر نیاز به دو تا چیز اصلی داریم:
+اولی api key که ساختیم
+دوم نیاز به یک listener داریم که در این listener دو تا وضعیت رو به ما میده
+1 : همه چیز اوکی و آماده اجرا شدن است و برو کاراشو انجام بده
+2 : با ارور رو به رو شده و به کاربر این ارور رو نشون بده
+
+شناسه ویدیو:
+این ویدیو پلیر یوتیوب برای پلی کردن ویدیو نیاز به url کامل ندارد. بلکه نیاز به شناسه ویدیو دارد
+که خومون میتونیم با پردازش string و متد split استخراج کنیم شناسه رو
+
+
+
+
+
+
