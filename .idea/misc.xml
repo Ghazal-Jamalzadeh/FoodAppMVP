@@ -8,11 +8,13 @@
         <entry key="..\:/AndroidProjects/FoodAppMVP/app/src/main/res/layout/activity_player.xml" value="0.2" />
         <entry key="..\:/AndroidProjects/FoodAppMVP/app/src/main/res/layout/disconnected_lay.xml" value="0.3681640625" />
         <entry key="..\:/AndroidProjects/FoodAppMVP/app/src/main/res/layout/fragment_detail.xml" value="0.2" />
+        <entry key="..\:/AndroidProjects/FoodAppMVP/app/src/main/res/layout/fragment_favorite.xml" value="0.2" />
         <entry key="..\:/AndroidProjects/FoodAppMVP/app/src/main/res/layout/fragment_home.xml" value="0.25" />
         <entry key="..\:/AndroidProjects/FoodAppMVP/app/src/main/res/layout/item_categories.xml" value="0.2" />
         <entry key="..\:/AndroidProjects/FoodAppMVP/app/src/main/res/layout/item_foods.xml" value="0.2" />
         <entry key="..\:/AndroidProjects/FoodAppMVP/app/src/main/res/layout/item_spinner.xml" value="0.2" />
         <entry key="..\:/AndroidProjects/FoodAppMVP/app/src/main/res/layout/item_spinner_list.xml" value="0.2" />
+        <entry key="..\:/AndroidProjects/FoodAppMVP/app/src/main/res/menu/menu_main.xml" value="0.2" />
       </map>
     </option>
   </component>

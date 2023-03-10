@@ -171,7 +171,7 @@ class HomeFragment : Fragment() , HomeContracts.View{
         }
 
         foodsAdapter.setOnItemClickListener {
-            val direction = HomeFragmentDirections.actionHomeFragmentToDetailFragment(it.idMeal!!.toInt())
+            val direction = HomeFragmentDirections.actionToDetailFragment(it.idMeal!!.toInt())
             findNavController().navigate(direction)
         }
     }
