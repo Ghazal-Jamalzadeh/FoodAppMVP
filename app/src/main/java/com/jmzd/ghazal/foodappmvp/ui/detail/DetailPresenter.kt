@@ -1,8 +1,11 @@
 package com.jmzd.ghazal.foodappmvp.ui.detail
 
+import com.jmzd.ghazal.foodappmvp.data.database.FoodEntity
 import com.jmzd.ghazal.foodappmvp.data.repository.DetailRepository
 import com.jmzd.ghazal.foodappmvp.utils.applyIoScheduler
 import com.jmzd.ghazal.foodappmvp.utils.base.BasePresenterImpl
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.schedulers.Schedulers
 import javax.inject.Inject
 
 
@@ -37,6 +40,33 @@ class DetailPresenter @Inject constructor(
         } else {
             view.internetError(false)
         }
+    }
+
+    override fun saveFood(entity: FoodEntity) {
+        disposable = repository.saveFood(entity)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                view.updateFavorite(true)
+            }
+    }
+
+    override fun deleteFood(entity: FoodEntity) {
+        disposable = repository.deleteFood(entity)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                view.updateFavorite(false)
+            }
+    }
+
+    override fun checkFavorite(id: Int) {
+        disposable = repository.existsFood(id)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                view.updateFavorite(it)
+            }
     }
 
 }

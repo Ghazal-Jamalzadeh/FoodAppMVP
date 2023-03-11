@@ -8,11 +8,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import coil.load
 import com.google.gson.Gson
 import com.jmzd.ghazal.foodappmvp.R
+import com.jmzd.ghazal.foodappmvp.data.database.FoodEntity
 import com.jmzd.ghazal.foodappmvp.data.model.home.ResponseFoodsList
 import com.jmzd.ghazal.foodappmvp.databinding.FragmentDetailBinding
 import com.jmzd.ghazal.foodappmvp.databinding.FragmentHomeBinding
@@ -34,6 +36,9 @@ class DetailFragment : Fragment(), DetailContracts.View {
 
     @Inject
     lateinit var presenter: DetailPresenter
+
+    @Inject
+    lateinit var entity : FoodEntity
 
     //Other
     private val args: DetailFragmentArgs by navArgs()
@@ -67,8 +72,15 @@ class DetailFragment : Fragment(), DetailContracts.View {
     override fun loadDetail(data: ResponseFoodsList) {
         //InitViews
         binding.apply {
-            //Set Data
+
             data.meals?.get(0)?.let { itMeal ->
+                //Favorite
+                entity.id = itMeal.idMeal.toString().toInt()
+                entity.title = itMeal.strMeal.toString()
+                entity.img = itMeal.strMealThumb.toString()
+                presenter.checkFavorite(itMeal.idMeal.toString().toInt())
+
+                //set data
                 foodCoverImg.load(itMeal.strMealThumb) {
                     crossfade(true)
                     crossfade(500)
@@ -121,6 +133,25 @@ class DetailFragment : Fragment(), DetailContracts.View {
                 if (measure.isNullOrEmpty().not()) {
                     measureTxt.append("$measure\n")
                 }
+            }
+        }
+    }
+
+    override fun updateFavorite(isAdded: Boolean) {
+        binding.apply {
+            //Click
+            detailFav.setOnClickListener {
+                if (isAdded) {
+                    presenter.deleteFood(entity)
+                } else {
+                    presenter.saveFood(entity)
+                }
+            }
+            //Change color
+            if (isAdded) {
+                detailFav.setColorFilter(ContextCompat.getColor(requireContext(), R.color.tartOrange))
+            } else {
+                detailFav.setColorFilter(ContextCompat.getColor(requireContext(), R.color.black))
             }
         }
     }
