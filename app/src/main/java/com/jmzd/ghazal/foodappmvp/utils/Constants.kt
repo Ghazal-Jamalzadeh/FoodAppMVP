@@ -8,3 +8,5 @@ const val VIDEO_ID = "video_id"
 
 const val FOOD_DB_TABLE = "food_db_table"
 const val FOOD_DB_DATABASE = "food_db_database"
+
+const val TAG = "ApplicationTag"

@@ -16,6 +16,7 @@ import com.jmzd.ghazal.foodappmvp.R
 import com.jmzd.ghazal.foodappmvp.data.model.home.ResponseCategoriesList
 import com.jmzd.ghazal.foodappmvp.data.model.home.ResponseFoodsList
 import com.jmzd.ghazal.foodappmvp.databinding.FragmentHomeBinding
+import com.jmzd.ghazal.foodappmvp.ui.favorite.FavoriteFragmentDirections
 import com.jmzd.ghazal.foodappmvp.ui.home.adapters.CategoriesAdapter
 import com.jmzd.ghazal.foodappmvp.ui.home.adapters.FoodsAdapter
 import com.jmzd.ghazal.foodappmvp.utils.isNetworkAvailable
@@ -171,7 +172,7 @@ class HomeFragment : Fragment() , HomeContracts.View{
         }
 
         foodsAdapter.setOnItemClickListener {
-            val direction = HomeFragmentDirections.actionToDetailFragment(it.idMeal!!.toInt())
+            val direction = FavoriteFragmentDirections.actionToDetailFragment(it.idMeal!!.toInt())
             findNavController().navigate(direction)
         }
     }
