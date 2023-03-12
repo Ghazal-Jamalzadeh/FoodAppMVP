@@ -15,8 +15,8 @@ class FavoritePresenter @Inject constructor(
 ) : BasePresenterImpl() , FavoriteContrracts.Presenter{
     override fun loadAllFoods() {
         disposable = repository.loadAllFoods()
-            .observeOn(Schedulers.io())
-            .subscribeOn(AndroidSchedulers.mainThread())
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 if(it.isEmpty()){
                     Log.d(TAG, "loadAllFoods: empty")
